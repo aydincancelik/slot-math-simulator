@@ -1,0 +1,36 @@
+
+import random
+
+# Slot makarası sembolleri ve ödeme tablosu
+symbols = ['A', 'K', 'Q', 'J', '10', 'BONUS']
+payouts = {
+    'A': 10,
+    'K': 8,
+    'Q': 6,
+    'J': 4,
+    '10': 2,
+    'BONUS': 20
+}
+
+# RTP hesaplama için spin sayısı
+NUM_SPINS = 1000000
+total_bet = 0
+total_win = 0
+
+def spin():
+    return [random.choice(symbols) for _ in range(5)]
+
+def evaluate(line):
+    if all(s == line[0] for s in line):
+        return payouts.get(line[0], 0)
+    return 0
+
+for _ in range(NUM_SPINS):
+    result = spin()
+    win = evaluate(result)
+    total_bet += 1
+    total_win += win
+
+RTP = (total_win / total_bet) * 100
+print(f"Simulated RTP over {NUM_SPINS} spins: {RTP:.2f}%")
+
